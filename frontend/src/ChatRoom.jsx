@@ -42,14 +42,14 @@ export default function ChatRoom() {
     const file = e.target.files[0];
     if (!file || !username) return;
 
-    // Step 1: Send metadata (filename, username, caption)
+    // Send metadata (filename, username, caption)
     const meta = { filename: file.name, username, caption: input || '' };
     ws.current.send(`__file__:${JSON.stringify(meta)}`);
 
-    // Step 2: Send binary
+    // Send binary
     file.arrayBuffer().then(buffer => {
       ws.current.send(buffer);
-      setInput(''); // clear caption
+      setInput(''); // clear caption after sending
     });
   };
 
@@ -91,13 +91,24 @@ export default function ChatRoom() {
           } else if (msg.type === 'file') {
             const url = `http://localhost:5000${msg.url}`;
             const color = getUserColor(msg.user || 'Unknown');
+
             const isImage = /\.(jpg|jpeg|png|gif)$/i.test(msg.name);
+            const isAudio = /\.(mp3|wav)$/i.test(msg.name);
+
             return (
               <div key={index} className="message">
                 <strong style={{ color }}>{msg.user}:</strong>
                 {isImage ? (
                   <div>
                     <img src={url} alt={msg.name} style={{ maxWidth: '200px', display: 'block' }} />
+                    {msg.caption && <p>{msg.caption}</p>}
+                  </div>
+                ) : isAudio ? (
+                  <div>
+                    <audio controls style={{ display: 'block', marginTop: '5px' }}>
+                      <source src={url} type={`audio/${msg.name.endsWith('.wav') ? 'wav' : 'mpeg'}`} />
+                      Your browser does not support the audio element.
+                    </audio>
                     {msg.caption && <p>{msg.caption}</p>}
                   </div>
                 ) : (
