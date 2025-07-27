@@ -1,0 +1,40 @@
+.chat-container {
+  width: 400px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.messages {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 5px;
+  background: #fff;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 6px;
+  background: #eef;
+  border-radius: 4px;
+}
+
+.input-bar {
+  display: flex;
+  gap: 5px;
+}
+
+.input-bar input {
+  flex: 1;
+  padding: 8px;
+}
+
+.input-bar button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
